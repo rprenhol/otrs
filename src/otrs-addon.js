@@ -69,7 +69,8 @@ const enviaCtrlEnter = () => {
     // handler para combinação de teclas
     // window.onload = (e) => {
         const leTeclado = evento => {
-            if (evento.altKey && evento.key === 'g') {
+            if ((evento.altKey && evento.key === 'g') ||
+                (evento.ctrlKey && evento.keyCode === 13)) {
                 // clica em Enviar
                 console.log('Disparou Alt+g');
                 document.getElementById('submitRichText').click();
