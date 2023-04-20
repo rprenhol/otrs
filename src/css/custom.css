@@ -1,0 +1,17 @@
+* {
+    color: #111;
+}
+
+body {
+    margin: 20px;
+    background: transparent;
+}
+
+.button {
+    background-color: gray;
+    border-color: gray;
+}
+
+input:focus {
+    border-color: #aaa;
+}
