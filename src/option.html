@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,12 +9,17 @@
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/milligram.css">
     <link rel="stylesheet" href="css/custom.css">
+    <script src="js/option.js"></script>
 </head>
+
 <body>
     <h3>Preferências</h3>
     <form>
-        <label for="url">URL do OTRS onde a extensão rodará</label>
-        <input type="url" name="url" id="url" placeholder="http[s]://<endereço do OTRS>">
+        <label for="url">URL do site OTRS</label>
+        <input type="url" name="url" id="url" placeholder="http[s]://<endereço do OTRS>" />
+        <input type="submit" id="submit" value="Save" disabled>
     </form>
+    <span id="status"></span>
 </body>
+
 </html>
