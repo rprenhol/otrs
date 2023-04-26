@@ -4,7 +4,7 @@
     "manifest_version": 2,
     "name": "OTRS",
     "homepage_url": "https://github.com/rprenhol/otrs",
-    "version": "2.3",
+    "version": "3.0",
     "icons": {
         "48": "icon/48.png",
         "92": "icon/92.png"
