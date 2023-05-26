@@ -1,3 +1,5 @@
+var permitido = false;
+
 const inibirClickTicket = () => {
   var selecao = false;
   var mDown = false;
@@ -6,6 +8,9 @@ const inibirClickTicket = () => {
   for (let linha of linhas) {
     let link = linha.querySelector(".MasterActionLink");
     linha.addEventListener("mousedown", (e) => {
+      if (!permitido) {
+        return false;
+      }
       selecao = false;
       mDown = true;
       adicionaAlvos(e.target.parentNode.childNodes);
@@ -13,12 +18,18 @@ const inibirClickTicket = () => {
       adicionaAlvos(linha.childNodes);
     });
     linha.addEventListener("mousemove", (e) => {
+      if (!permitido) {
+        return false;
+      }
       if (mDown && !selecao) {
         selecao = true;
         adicionaClasseNoAlvo(alvos);
       }
     });
     linha.addEventListener("click", (e) => {
+      if (!permitido) {
+        return false;
+      }
       if (selecao) {
         e.preventDefault();
         selecao = false;
@@ -32,6 +43,9 @@ const inibirClickTicket = () => {
   }
 
   document.addEventListener("mouseup", (e) => {
+    if (!permitido) {
+      return false;
+    }
     mDown = false;
   });
 
@@ -59,43 +73,54 @@ const inibirClickTicket = () => {
   };
 };
 
-const enviaCtrlEnter = () => {
-  // handler para combinação de teclas
-  const leTeclado = (evento) => {
-    if (
-      (evento.altKey && evento.key === "g") ||
-      (evento.ctrlKey && evento.keyCode === 13)
-    ) {
-      // clica em Enviar
-      document.getElementById("submitRichText").click();
-    }
-  };
-  window.addEventListener("keypress", leTeclado);
-  // adiciona listener em document de iframes
-  document.querySelectorAll("iframe").forEach((elemento) => {
-    elemento.contentWindow.document.addEventListener("keypress", leTeclado);
-  });
-  // }
+// handler para combinação de teclas
+const leTeclado = (evento) => {
+  if (!permitido) {
+    return false;
+  }
+
+  if (
+    (evento.altKey && evento.key === "g") ||
+    (evento.ctrlKey && evento.keyCode === 13)
+  ) {
+    evento.preventDefault();
+    // clica em Enviar
+    document.getElementById("submitRichText").click();
+  }
 };
 
-// Inicia instâncias
-var urlOTRS = "atendimento.icmc.usp.br";
-if (window.location.hostname.includes(urlOTRS)) {
-  inibirClickTicket();
-  let params = new URLSearchParams(window.location.search);
-
-  // Composição de artigo
+const enviaCtrlEnter = () => {
+  const atributoDeVerificacao = 'listeningKeyboard';
   if (
-    params.has("Action") &&
-    params.get("Action").includes("AgentTicketCompose")
+    !String(window.location).includes("AgentTicketCompose") ||
+    !String(window.parent.location).includes("AgentTicketCompose")
   ) {
-    enviaCtrlEnter();
+    return false;
   }
-} else {
-}
 
+  window.addEventListener("keypress", leTeclado);
+  document.querySelectorAll("iframe").forEach((iframe) => {
+    if(iframe.hasAttribute(atributoDeVerificacao)) {
+      if(intervaloRepeticao) {
+        clearInterval(intervaloRepeticao);
+        iframe.removeAttribute(atributoDeVerificacao);
+      }
+    } else {
+      iframe.contentWindow.addEventListener("keydown", leTeclado);
+      iframe.setAttribute(atributoDeVerificacao,'')
+    }
+  });
+};
+// Inicia instâncias
 browser.runtime.sendMessage({ action: "getUrl" }).then((msg) => {
   if (msg.url) {
-    urlOTRS = msg.url;
+    let urlOTRS = msg.url;
+    permitido = String(window.location).includes(urlOTRS);
   }
 });
+
+inibirClickTicket();
+// para elementos dinamicamente inseridos
+var intervaloRepeticao = setInterval(() => {
+  enviaCtrlEnter();
+}, 1000);
