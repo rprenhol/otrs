@@ -4,7 +4,7 @@ var urlOtrs = null;
 const enableInTab = () => {
   browser.tabs.query({ active: true }, function (tabs) {
     for (const tab of tabs) {
-      if (urlOtrs && tab.url.includes(urlOtrs)) {
+      if (urlOtrs && tab.url.match(urlOtrs)) {
         browser.pageAction.show(tab.id);
       } else {
         browser.pageAction.hide(tab.id);
@@ -14,7 +14,7 @@ const enableInTab = () => {
 };
 const loadPrefs = () => {
   browser.storage.local.get("url", (result) => {
-    urlOtrs = result.url || "";
+    urlOtrs = new RegExp(result.url || "/otrs/");
   });
 
   enableInTab();

@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OTRS - Opções</title>
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/milligram.css">
+    <!-- <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/milligram.css"> -->
     <link rel="stylesheet" href="css/custom.css">
     <script src="js/option.js"></script>
 </head>
@@ -20,6 +20,36 @@
         <input type="submit" id="submit" value="Save" disabled>
     </form>
     <span id="status"></span>
+    <div id="donations">
+        <h3>Contribute what you can</h3>
+        <div id="paypal">
+            <form action="https://www.paypal.com/donate" method="post" target="_top">
+                <input type="hidden" name="hosted_button_id" value="7PSHTCR3L4TU8" />
+                <input type="image" src="https://www.paypalobjects.com/pt_BR/BR/i/btn/btn_donateCC_LG.gif" border="0"
+                    name="submit" title="PayPal - The safer, easier way to pay online!"
+                    alt="Faça doações com o botão do PayPal" />
+                <img alt="" border="0" src="https://www.paypal.com/pt_BR/i/scr/pixel.gif" width="1" height="1" />
+            </form>
+        </div>
+        <div id="cryptos">
+            <div>
+                <a href="bitcoin:xxx">
+                    <img src="icon/Bitcoin.png">
+                    <span class="wallet">
+
+                    </span>
+                </a>
+            </div>
+            <div>
+                <a href="monero:xxx">
+                    <img src="icon/monero.png">
+                    <span class="wallet">
+
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

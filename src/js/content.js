@@ -84,16 +84,23 @@ const leTeclado = (evento) => {
     (evento.ctrlKey && evento.keyCode === 13)
   ) {
     evento.preventDefault();
+    
+    let botao = document.getElementById("submitRichText");
     // clica em Enviar
-    document.getElementById("submitRichText").click();
+    if(botao) {
+      botao.click();
+    }
   }
 };
 
 const enviaCtrlEnter = () => {
   const atributoDeVerificacao = 'listeningKeyboard';
+  let expressao = /AgentTicket(Note|Compose)/g;
+
+  console.debug('validou o enviaCtrlEnter');
   if (
-    !String(window.location).includes("AgentTicketCompose") ||
-    !String(window.parent.location).includes("AgentTicketCompose")
+    !String(window.location).match(expressao) ||
+    !String(window.parent.location).match(expressao)
   ) {
     return false;
   }
@@ -101,10 +108,7 @@ const enviaCtrlEnter = () => {
   window.addEventListener("keypress", leTeclado);
   document.querySelectorAll("iframe").forEach((iframe) => {
     if(iframe.hasAttribute(atributoDeVerificacao)) {
-      if(intervaloRepeticao) {
-        clearInterval(intervaloRepeticao);
-        iframe.removeAttribute(atributoDeVerificacao);
-      }
+      iframe.removeAttribute(atributoDeVerificacao);
     } else {
       iframe.contentWindow.addEventListener("keydown", leTeclado);
       iframe.setAttribute(atributoDeVerificacao,'')
@@ -115,12 +119,11 @@ const enviaCtrlEnter = () => {
 browser.runtime.sendMessage({ action: "getUrl" }).then((msg) => {
   if (msg.url) {
     let urlOTRS = msg.url;
-    permitido = String(window.location).includes(urlOTRS);
+    permitido = String(window.location).match(urlOTRS);
   }
 });
 
 inibirClickTicket();
-// para elementos dinamicamente inseridos
-var intervaloRepeticao = setInterval(() => {
-  enviaCtrlEnter();
-}, 1000);
+
+const observer = new MutationObserver(enviaCtrlEnter);
+observer.observe(document, {childList: true, subtree: true})

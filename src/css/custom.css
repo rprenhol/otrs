@@ -1,5 +1,23 @@
+
 * {
     color: #111;
+}
+form * {
+    display: block;
+    margin: .5em;
+}
+
+input {
+    padding: .4em;
+    border: 1px solid #aaa 2px;
+}
+
+input[type="url"] {
+    width: 80%;
+}
+
+input:active {
+    box-shadow: 1px rgb(39, 39, 196) outset ;
 }
 
 body {
@@ -14,4 +32,20 @@ body {
 
 input:focus {
     border-color: #aaa;
+}
+
+#cryptos a {
+    height: 1rem;
+}
+
+#cryptos img {
+    width: 24px;
+}
+
+.wallet {
+    border: 1px solid #666;
+    background-color: #ddd;
+    font-family: monospace;
+    padding: 3px;
+    width: 80%;
 }
